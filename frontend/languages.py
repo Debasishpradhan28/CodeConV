@@ -1,0 +1,23 @@
+SUPPORTED_LANGUAGES = [
+    "Python",
+    "Python 3",
+    "C",
+    "C++",
+    "Java",
+    "JavaScript",
+    "TypeScript",
+    "Go",
+    "Rust",
+    "Kotlin",
+    "Swift",
+    "PHP",
+    "Ruby",
+    "Dart",
+    "R",
+    "Bash",
+    "PowerShell",
+    "SQL",
+    "MySQL",
+    "PostgreSQL",
+    "Pseudocode"
+]

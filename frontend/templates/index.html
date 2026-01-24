@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Code Converter</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>AI Code Converter</h1>
+
+        <div class="language-select">
+            <div>
+                <label>Source Language</label>
+                <select id="sourceLang"></select>
+            </div>
+
+            <div>
+                <label>Target Language</label>
+                <select id="targetLang"></select>
+            </div>
+        </div>
+
+        <div class="editor">
+            <textarea id="inputCode" placeholder="Paste your source code here..."></textarea>
+            <textarea id="outputCode" placeholder="Converted code will appear here..." readonly></textarea>
+        </div>
+
+    
+        <div class="action-row">
+    <button class="btn convert" onclick="handleAction('convert')">
+        Convert Code
+    </button>
+
+    <button class="btn explain" onclick="handleAction('explain')">
+        Explain Logic
+    </button>
+
+    <button class="btn logic" onclick="handleAction('explain')">
+        View Logic
+    </button>
+</div>
+
+<button class="flowchart-btn" id="flowBtn" onclick="openFlowchart()" disabled>
+    ⭕
+</button>
+
+
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
