@@ -30,7 +30,7 @@ def convert():
         return jsonify({"result": "Missing source or code"}), 200
 
     try:
-        # ---------- IR MODE ----------
+        # ir mode
         if mode == "ir":
           
           ir_prompt = build_ir_prompt(source, code)
@@ -42,13 +42,12 @@ def convert():
         })
 
 
-        # ------- EXPLAIN MODE --------
+        #explain mode
         if mode == "explain":
             explain_prompt = build_explain_prompt(source, code)
             explanation = convert_code(explain_prompt)
             return jsonify({"result": explanation})
 
-        # ------- CONVERT MODE --------
         if not target:
             return jsonify({"result": "Target language required"}), 200
 
@@ -58,7 +57,13 @@ def convert():
         return jsonify({"result": converted_code})
 
     except Exception as e:
-        return jsonify({"result": f"Error: {str(e)}"}), 200
+      import traceback
+      traceback.print_exc()
+
+      return jsonify({
+        "result": "SERVER CRASH — check terminal"
+      }), 200
+
 
 
 if __name__ == "__main__":

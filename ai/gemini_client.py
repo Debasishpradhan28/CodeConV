@@ -1,19 +1,24 @@
-import google.generativeai as genai
 import os
+import google.generativeai as genai
 
 def init_gemini():
     genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 def convert_code(prompt):
-    model = genai.GenerativeModel("gemini-3-flash-preview")
-    response = model.generate_content(prompt)
-
     try:
-        if response.candidates and len(response.candidates) > 0:
-            parts = response.candidates[0].content.parts
-            if parts and len(parts) > 0:
-                return parts[0].text
-    except:
-        pass
+        model = genai.GenerativeModel("gemini-3-flash-preview")
+        response = model.generate_content(prompt)
 
-    return "Error: AI returned empty response. Please retry after a few seconds."
+        if (
+            response.candidates
+            and len(response.candidates) > 0
+            and response.candidates[0].content
+            and response.candidates[0].content.parts
+            and len(response.candidates[0].content.parts) > 0
+        ):
+            return response.candidates[0].content.parts[0].text.strip()
+
+        return "AI returned no output. Please wait 30 seconds and try again."
+
+    except Exception as e:
+        return f"AI error: {str(e)}"

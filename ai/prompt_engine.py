@@ -18,27 +18,7 @@ Code:
 {code}
 """
 
-
-
-# def build_explain_prompt(source, code):
-#     return f"""
-# You are a programming tutor.
-
-# Explain the logic of the following {source} code
-# in simple and natural human language.
-
-# Rules:
-# - Do NOT use markdown
-# - Do NOT use symbols like **, __, ###, ---
-# - Do NOT format text
-# - Do NOT show code
-# - Write like ChatGPT explaining to a student
-# - Use short paragraphs
-# - Keep explanation clear and friendly
-
-# Code:
-# {code}
-# """
+# explain prompt
 
 def build_explain_prompt(source, code):
     return f"""

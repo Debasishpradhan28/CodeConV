@@ -211,10 +211,7 @@ button:hover {
     background: #155bd6;
 }
 
-/* =============================
-   Mobile Responsive Design
-============================= */
-
+/* mobile responsive */
 @media (max-width: 768px) {
 
     .container {
