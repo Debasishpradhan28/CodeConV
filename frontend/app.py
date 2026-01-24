@@ -2,6 +2,9 @@ from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 import requests
 
+import os
+AI_BASE = os.getenv("AI_BASE_URL")
+
 app = Flask(__name__)
 CORS(app)
 
@@ -22,7 +25,7 @@ def convert():
 
     try:
         ai_response = requests.post(
-            "http://localhost:8000/convert",
+            f"{AI_BASE}/convert",
             json=data,
             timeout=60
         )
