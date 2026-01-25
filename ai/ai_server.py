@@ -1,6 +1,86 @@
+# from flask import Flask, request, jsonify
+# from flask_cors import CORS
+# from dotenv import load_dotenv
+# import json
+# import time
+# import hashlib
+
+
+# from ir_generator import build_ir_prompt
+# from prompt_engine import (
+#     build_convert_prompt,
+#     build_explain_prompt
+# )
+# from gemini_client import init_gemini, convert_code
+
+# load_dotenv()
+# init_gemini()
+
+# app = Flask(__name__)
+# CORS(app)
+# CACHE = {}
+# LAST_REQUEST_TIME = 0
+# COOLDOWN_SECONDS = 40
+
+
+
+# @app.route("/convert", methods=["POST"])
+# def convert():
+#     data = request.json
+
+#     source = data.get("source")
+#     target = data.get("target")
+#     code = data.get("code")
+#     mode = data.get("mode", "convert")
+
+#     if not source or not code:
+#         return jsonify({"result": "Missing source or code"}), 200
+
+#     try:
+#         # ir mode
+#         if mode == "ir":
+          
+#           ir_prompt = build_ir_prompt(source, code)
+#           mermaid_code = convert_code(ir_prompt)
+
+#           return jsonify({
+              
+#               "result": mermaid_code
+#         })
+
+
+#         #explain mode
+#         if mode == "explain":
+#             explain_prompt = build_explain_prompt(source, code)
+#             explanation = convert_code(explain_prompt)
+#             return jsonify({"result": explanation})
+
+#         if not target:
+#             return jsonify({"result": "Target language required"}), 200
+
+#         convert_prompt = build_convert_prompt(source, target, code)
+#         converted_code = convert_code(convert_prompt)
+
+#         return jsonify({"result": converted_code})
+
+#     except Exception as e:
+#       import traceback
+#       traceback.print_exc()
+
+#       return jsonify({
+#         "result": "SERVER CRASH — check terminal"
+#       }), 200
+
+
+
+# if __name__ == "__main__":
+#     app.run(port=8000)
+
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
+import time
+import hashlib
 import json
 
 from ir_generator import build_ir_prompt
@@ -16,10 +96,15 @@ init_gemini()
 app = Flask(__name__)
 CORS(app)
 
+# ---------------- GLOBAL CONTROL ----------------
+CACHE = {}
+LAST_REQUEST_TIME = 0
+COOLDOWN_SECONDS = 40
+
 
 @app.route("/convert", methods=["POST"])
 def convert():
-    data = request.json
+    data = request.json or {}
 
     source = data.get("source")
     target = data.get("target")
@@ -30,40 +115,24 @@ def convert():
         return jsonify({"result": "Missing source or code"}), 200
 
     try:
-        # ir mode
         if mode == "ir":
-          
-          ir_prompt = build_ir_prompt(source, code)
-          mermaid_code = convert_code(ir_prompt)
+            prompt = build_ir_prompt(source, code)
 
-          return jsonify({
-              
-              "result": mermaid_code
-        })
+        elif mode == "explain":
+            prompt = build_explain_prompt(source, code)
 
+        else:
+            if not target:
+                return jsonify({"result": "Target language required"}), 200
+            prompt = build_convert_prompt(source, target, code)
 
-        #explain mode
-        if mode == "explain":
-            explain_prompt = build_explain_prompt(source, code)
-            explanation = convert_code(explain_prompt)
-            return jsonify({"result": explanation})
-
-        if not target:
-            return jsonify({"result": "Target language required"}), 200
-
-        convert_prompt = build_convert_prompt(source, target, code)
-        converted_code = convert_code(convert_prompt)
-
-        return jsonify({"result": converted_code})
+        result = convert_code(prompt)
+        return jsonify({"result": result}), 200
 
     except Exception as e:
-      import traceback
-      traceback.print_exc()
-
-      return jsonify({
-        "result": "SERVER CRASH — check terminal"
-      }), 200
-
+        import traceback
+        traceback.print_exc()
+        return jsonify({"result": "Server error"}), 200
 
 
 if __name__ == "__main__":

@@ -1,70 +1,47 @@
 const languages = [
-    "Python",
-    "Python 3",
-    "C",
-    "C++",
-    "Java",
-    "JavaScript",
-    "TypeScript",
-    "Go",
-    "Rust",
-    "Kotlin",
-    "Swift",
-    "PHP",
-    "Ruby",
-    "Dart",
-    "R",
-    "Bash",
-    "PowerShell",
-    "SQL",
-    "MySQL",
-    "PostgreSQL",
-    "Pseudocode"
+    "Python", "Python 3", "C", "C++", "Java", "JavaScript",
+    "TypeScript", "Go", "Rust", "Kotlin", "Swift", "PHP",
+    "Ruby", "Dart", "R", "Bash", "PowerShell",
+    "SQL", "MySQL", "PostgreSQL", "Pseudocode"
 ];
+
+window.onload = () => {
+    loadLanguages();
+    const flowBtn = document.getElementById("flowBtn");
+    if (flowBtn) flowBtn.disabled = true;
+};
 
 function loadLanguages() {
     const source = document.getElementById("sourceLang");
     const target = document.getElementById("targetLang");
 
     languages.forEach(lang => {
-        const opt1 = document.createElement("option");
-        opt1.value = lang;
-        opt1.textContent = lang;
-
-        const opt2 = document.createElement("option");
-        opt2.value = lang;
-        opt2.textContent = lang;
-
-        source.appendChild(opt1);
-        target.appendChild(opt2);
+        source.add(new Option(lang, lang));
+        target.add(new Option(lang, lang));
     });
 }
-const flowBtn = document.getElementById("flowBtn");
-window.onload = loadLanguages;
-flowBtn.disabled = true;
-
 
 function openFlowchart() {
     window.location.href = "/flowchart";
 }
 
-
 async function handleAction(mode) {
     const inputCode = document.getElementById("inputCode").value;
     const sourceLang = document.getElementById("sourceLang").value;
     const targetLang = document.getElementById("targetLang").value;
+    const output = document.getElementById("outputCode");
 
     if (!inputCode.trim()) {
         alert("Please enter some code.");
         return;
     }
 
-    document.getElementById("outputCode").value =
+    output.value =
         mode === "convert"
             ? "Converting code..."
             : mode === "explain"
-            ? "Analyzing logic..."
-            : "Extracting program logic...";
+            ? "Explaining logic..."
+            : "Generating program logic...";
 
     try {
         const response = await fetch("/convert", {
@@ -80,31 +57,29 @@ async function handleAction(mode) {
 
         const data = await response.json();
 
-if (mode === "ir") {
-    sessionStorage.setItem(
-        "latestFlowchart",
-        data.result
-    );
+        // ---------------- VIEW LOGIC ----------------
+        if (mode === "ir") {
+           sessionStorage.setItem("latestFlowchart", data.result);
 
+           document.getElementById("outputCode").value =
+           "Logic extracted successfully.\nClick the flowchart button to visualize.";
 
-    document.getElementById("flowBtn").disabled = false;
-}
+            document.getElementById("flowBtn").disabled = false;
+            return;
+        }
 
+// ---------------- EXPLAIN LOGIC ----------------
+        if (mode === "explain") {
+            document.getElementById("outputCode").value =
+            "PROGRAM LOGIC EXPLANATION\n\n" + data.result;
+            return;
+        }
 
-if (mode === "explain") {
-    document.getElementById("outputCode").value =
-        "PROGRAM LOGIC EXPLANATION\n\n" + data.result;
-} else {
-    document.getElementById("outputCode").value =
-        typeof data.result === "string"
-            ? data.result
-            : JSON.stringify(data.result, null, 2);
-}
-
+// ---------------- CONVERT CODE ----------------
+document.getElementById("outputCode").value = data.result;
 
 
     } catch (err) {
-        document.getElementById("outputCode").value =
-            "Something went wrong.";
+        output.value = "Unable to connect to backend.";
     }
 }

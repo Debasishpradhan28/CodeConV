@@ -1,11 +1,20 @@
 const chart = sessionStorage.getItem("latestFlowchart");
 
 if (!chart) {
-    alert("Please click View Logic first.");
+    document.getElementById("diagram").innerHTML =
+        "<p style='color:red;text-align:center;'>Please click View Logic first.</p>";
 } else {
+    mermaid.initialize({
+        startOnLoad: false,
+        theme: "default"
+    });
+
     document.getElementById("diagram").innerHTML = chart;
-    mermaid.initialize({ startOnLoad: true });
+
+    // Force render
+    mermaid.run();
 }
+
 function goBack() {
     window.history.back();
 }
