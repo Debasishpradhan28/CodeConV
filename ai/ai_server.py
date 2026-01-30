@@ -82,6 +82,7 @@ from dotenv import load_dotenv
 import time
 import hashlib
 import json
+import os
 
 from ir_generator import build_ir_prompt
 from prompt_engine import (
@@ -136,4 +137,5 @@ def convert():
 
 
 if __name__ == "__main__":
-    app.run(port=8000)
+    port = int(os.environ.get("PORT", 8000))
+    app.run(host="0.0.0.0", port=port)
