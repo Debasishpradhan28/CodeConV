@@ -96,7 +96,7 @@ init_gemini()
 app = Flask(__name__)
 CORS(app)
 
-# ---------------- GLOBAL CONTROL ----------------
+
 CACHE = {}
 LAST_REQUEST_TIME = 0
 COOLDOWN_SECONDS = 40

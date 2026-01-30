@@ -77,14 +77,14 @@ async function handleAction(mode) {
  }
 
 
-// ---------------- EXPLAIN LOGIC ----------------
+
         if (mode === "explain") {
             document.getElementById("outputCode").value =
             "PROGRAM LOGIC EXPLANATION\n\n" + data.result;
             return;
         }
 
-// ---------------- CONVERT CODE ----------------
+
 document.getElementById("outputCode").value = data.result;
 
 

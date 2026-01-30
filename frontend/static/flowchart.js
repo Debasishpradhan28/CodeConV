@@ -11,7 +11,7 @@ if (!chart) {
 
     document.getElementById("diagram").innerHTML = chart;
 
-    // Force render
+    
     mermaid.run();
 }
 

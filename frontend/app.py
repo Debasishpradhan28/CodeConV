@@ -6,7 +6,6 @@ import os
 app = Flask(__name__)
 CORS(app)
 
-# Use env variable if available, else fallback to localhost
 AI_BASE = os.getenv("AI_BASE_URL", "http://localhost:8000")
 
 
