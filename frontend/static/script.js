@@ -57,16 +57,25 @@ async function handleAction(mode) {
 
         const data = await response.json();
 
-        // ---------------- VIEW LOGIC ----------------
+       
         if (mode === "ir") {
            sessionStorage.setItem("latestFlowchart", data.result);
 
            document.getElementById("outputCode").value =
-           "Logic extracted successfully.\nClick the flowchart button to visualize.";
+            `LOGIC EXTRACTED SUCCESSFULLY
 
-            document.getElementById("flowBtn").disabled = false;
-            return;
-        }
+        ──────── PROGRAM LOGIC (IR) ────────
+
+          ${data.result}
+
+        ──────── END ────────
+
+        Click the flowchart button to visualize this logic.`;
+
+        document.getElementById("flowBtn").disabled = false;
+        return;
+ }
+
 
 // ---------------- EXPLAIN LOGIC ----------------
         if (mode === "explain") {
