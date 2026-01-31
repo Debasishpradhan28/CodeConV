@@ -18,6 +18,10 @@ def home():
 def flowchart():
     return render_template("flowchart.html")
 
+@app.route("/advanced")
+def advanced():
+    return render_template("advanced.html")
+
 
 @app.route("/convert", methods=["POST"])
 def convert():

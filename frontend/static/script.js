@@ -25,11 +25,19 @@ function openFlowchart() {
     window.location.href = "/flowchart";
 }
 
+function goAdvanced() {
+    window.location.href = "/advanced";
+    }
+
 async function handleAction(mode) {
     const inputCode = document.getElementById("inputCode").value;
+    sessionStorage.setItem("latestCode", inputCode);
     const sourceLang = document.getElementById("sourceLang").value;
     const targetLang = document.getElementById("targetLang").value;
     const output = document.getElementById("outputCode");
+    
+    
+
 
     if (!inputCode.trim()) {
         alert("Please enter some code.");
@@ -86,7 +94,8 @@ async function handleAction(mode) {
 
 
 document.getElementById("outputCode").value = data.result;
-
+     
+ 
 
     } catch (err) {
         output.value = "Unable to connect to backend.";

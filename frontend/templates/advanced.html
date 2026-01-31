@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Advanced Analysis — CodeFlowAI</title>
+
+    <link rel="stylesheet" href="/static/advanced.css">
+</head>
+<body>
+
+<div class="advanced-container">
+
+    <!-- HEADER -->
+    <div class="advanced-header">
+        <h1>Advanced Code Intelligence</h1>
+        <p id="aiText">Analyzing how your code behaves internally...</p>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="advanced-body">
+
+        <button class="back-btn" onclick="goBack()">← Back to Editor</button>
+        <div class="feature-panel">
+
+            <div class="feature-card" onclick="runAnalysis('complexity')">
+                🧠
+                <h3>Logic Complexity</h3>
+                <p>Analyze decision depth, loops and time complexity</p>
+            </div>
+
+            <div class="feature-card" onclick="runAnalysis('debug')">
+                🐞
+                <h3>AI Debug Reasoner</h3>
+                <p>Find hidden logic flaws and edge cases</p>
+            </div>
+
+            <div class="feature-card" onclick="runAnalysis('interview')">
+                🎯
+                <h3>Interview Generator</h3>
+                <p>Generate interview questions from your code</p>
+            </div>
+
+        </div>
+        
+
+
+        
+        <div class="output-panel">
+            <h2>AI Analysis Output</h2>
+            <pre id="analysisOutput">
+Select an analysis type to begin.
+            </pre>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="/static/advanced.js"></script>
+</body>
+</html>

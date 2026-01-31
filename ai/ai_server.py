@@ -9,7 +9,10 @@ import os
 from ir_generator import build_ir_prompt
 from prompt_engine import (
     build_convert_prompt,
-    build_explain_prompt
+    build_explain_prompt,
+    build_complexity_prompt,
+    build_debug_prompt,
+    build_interview_prompt
 )
 from gemini_client import init_gemini, convert_code
 
@@ -34,8 +37,8 @@ def convert():
     code = data.get("code")
     mode = data.get("mode", "convert")
 
-    if not source or not code:
-        return jsonify({"result": "Missing source or code"}), 200
+    if not code:
+        return jsonify({"result": "No code Provided"}), 200
 
     try:
         if mode == "ir":
@@ -43,6 +46,15 @@ def convert():
 
         elif mode == "explain":
             prompt = build_explain_prompt(source, code)
+
+        elif mode == "complexity":
+            prompt = build_complexity_prompt(code)    
+
+        elif mode == "debug":
+            prompt = build_debug_prompt(code)    
+
+        elif mode == "interview":
+            prompt = build_interview_prompt(code)    
 
         else:
             if not target:
